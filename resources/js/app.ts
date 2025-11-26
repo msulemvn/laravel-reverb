@@ -7,18 +7,19 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import LaravelPermissionToVueJS from "../../vendor/zodexnl/spatie-permission-to-vue-inertia/src/js";
-import Vue from 'vue';
+import echo from './echo';
 
-// Extend ImportMeta interface for Vite...
-declare module 'vite/client' {
+window.Echo = echo;
+
+declare global {
+    interface Window {
+        Echo: typeof echo;
+        Pusher: any;
+    }
+
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
         [key: string]: string | boolean | undefined;
-    }
-
-    interface ImportMeta {
-        readonly env: ImportMetaEnv;
-        readonly glob: <T>(pattern: string) => Record<string, () => Promise<T>>;
     }
 }
 
